@@ -1,68 +1,91 @@
+# PPE Guide Web App
+
+react repo for the Medic Bleep PPE Guide App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Development
 
-In the project directory, you can run:
+## Running the app locally
 
-### `yarn start`
+1. Install js dependencies: `yarn install`
+2. Run the project: `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Structure
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+We're using `redux` for state management and `redux-saga` for asynchronous actions e.g. api requests.
 
-### `yarn test`
+The bulk of the code is in the `app` directory.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| location       | contents                                                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| src/App.js     | Entrypoint for the app                                                                                                       |
+| src/api        | API interaction                                                                                                              |
+| src/components | lower level components, e.g. buttons                                                                                         |
+| src/screens    | components representing entire screens within the app, where integration with redux would happen                             |
+| src/config     | app-wide config - things like an api host, colors, etc. Configuration of the redux store and, in dev, tools like Reactotron. |
+| src/state      | redux reducers/actions/selectors. Combined in `index.js`                                                                     |
+| src/sagas      | `redux-saga` sagas, forked from the root saga in `index.js` to run in parallel.                                              |
 
-### `yarn build`
+## Config
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Global app config is in `app/config/index.js`. There are some defaults which are overridden by the contents of `local.js` and either `development.js` or `production.js`, in that order, depending on if the app is being run locally or built as a release.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+`local.js` is intended for overriding config values without committing them. Things like enabling/disabling storybook locally or secret tokens.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`production.js` is applied last, so local values for these won't have an effect.
 
-### `yarn eject`
+#### Possible config values
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**TODO** Update these as config values are established
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| value              | purpose                                           |
+| ------------------ | ------------------------------------------------- |
+| `colors`           | The colors used throughout the app                |
+| `storybookEnabled` | Should storybook run? (not currently implemented) |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Redux
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**TODO** Setup redux
 
-## Learn More
+Our typical redux setup would be done in `config/store.js`. This would setup the redux store, add middleware (such as redux-saga and redux-persist).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+We would then add the react-redux `Provider` to `app/App.js`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+We have included `@reduxjs/toolkit` which speeds up development by allowing us to abstract away most of the typical boilerplate code associated with setting up and using redux. For example:
 
-### Code Splitting
+- Includes a convenience function for configuring the store
+- Has the concept of a `slice` which incorporates reducers and action creators
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+It's worth reading through the [toolkit docs](https://redux-toolkit.js.org/) for more details
 
-### Analyzing the Bundle Size
+## Storybook
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+**TODO** Implement
 
-### Making a Progressive Web App
+[Storybook](https://storybook.js.org/) allows us to list example usages of our components with various props so that we can quickly iterate on them without manually navigating to get the app into a useful state.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Run the storybook server using `yarn storybook`, then start the app with `storybookEnabled` set to `true` in `app/config/local.js`. Storybook takes over the app UI with a component browser.
 
-### Advanced Configuration
+## Dev Tools
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+**TODO** Implement
 
-### Deployment
+Add a suitable suggested develompent tool or tools. List what you use and why you use it.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Tests
 
-### `yarn build` fails to minify
+Run the tests with `yarn test`. We use a mixture of snapshot tests for making sure we don't make any unintentional changes to components or redux state mutations, and unit tests elsewhere.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Code style
+
+We use `prettier` for code formatting.
+
+## Git Flow
+
+The branching model used in this repo is based on [git
+flow](https://nvie.com/posts/a-successful-git-branching-model/)
+
+# Build & Deploy
+
+**TODO** document how to build and deploy
