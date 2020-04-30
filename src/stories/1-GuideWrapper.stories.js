@@ -47,7 +47,7 @@ export default {
   component: GuideWrapper,
 };
 
-export const EmptyGuideWrapper = () => <GuideWrapper></GuideWrapper>;
+// export const EmptyGuideWrapper = () => <GuideWrapper></GuideWrapper>;
 
 export const SingleGuideWrapper = () => <GuideWrapper ppe_guides={singleGuide.ppe_guides}></GuideWrapper>;
 

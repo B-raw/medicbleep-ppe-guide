@@ -1,17 +1,17 @@
 import React from "react";
 import logo from "./logo.svg";
-import GuideWrapper from './components/GuideWrapper';
+import Home from './screens/home';
 
 function App() {
   return (
-    <div>
+    <>
       <header>
 
       </header>
       <body>
-        <GuideWrapper />        
+        <Home />
       </body>
-    </div>
+    </>
   );
 }
 

@@ -2,6 +2,9 @@ import React from 'react';
 import ItemBlock from './ItemBlock';
 
 function ItemWrapper(props) {
+  console.log(props.ppe_items)
+
+
   return (
     <div>
       <h2>PPE Overview</h2>
